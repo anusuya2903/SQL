@@ -1,0 +1,59 @@
+1. primary and foreign key: appid ,steam_appid
+
+2.select * 
+from steam st
+inner join steam_requirements_data sr
+on
+st.appid = sr.steam_appid
+where st.release_date > DATEADD(YEAR, -2, GETDATE()) AND
+st.genres = 'Action' AND 
+st.price = '0' AND
+sr.recommended like %windows% AND
+order by <column>
+
+3.select * 
+from dbo.steam 
+where price <= '20' AND 
+steamspy_tags LIKE '%Puzzle%' 
+order by positive_ratings DESC;
+
+4.select count(appid) as number_of_games,value as genres 
+from 
+(select * from dbo.steam where release_date > DATEADD(YEAR, -10, GETDATE()) AND 
+(developer LIKE 'Valve' OR developer LIKE 'Valve;%')) 
+as subquery cross apply string_split(genres,';') 
+group by value;
+
+5.SELECT dbo.steam.appid,dbo.steam.name,dbo.steam.developer,dbo.steam_requirements_data.minimum 
+FROM dbo.steam
+INNER JOIN dbo.steam_requirements_data
+ON dbo.steam.appid = dbo.steam_requirements_data.steam_appid
+where dbo.steam.developer 
+like '%Gearbox Software%';
+
+6.select * 
+from dbo.steam 
+where english='1' AND platforms 
+like '%mac%' 
+order by average_playtime desc;
+
+7.select name,genres,price
+from steam
+where price < '10'
+order by genres
+
+8.select appid,release_date, steamspy_tags 
+from dbo.steam 
+WHERE (release_date > DATEADD(YEAR, -10, GETDATE())) 
+AND 
+(steamspy_tags LIKE '%MOBA;%' or steamspy_tags LIKE '%RPG;%' or steamspy_tags like '%;MOBA%' or steamspy_tags like'%;RPG%');
+
+9.
+
+10.SELECT dbo.steam.appid,dbo.steam.name,dbo.steam.publisher,dbo.steam_requirements_data.minimum 
+FROM dbo.steam
+INNER JOIN dbo.steam_requirements_data
+ON dbo.steam.appid = dbo.steam_requirements_data.steam_appid
+where dbo.steam.name 
+like '12 Labours of Hercules%';
+
